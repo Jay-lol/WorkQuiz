@@ -26,23 +26,23 @@
             <Button android:id="@+id/answer_one"
                     android:layout_width="@dimen/btn_width_size"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/btn_text_size" />
+                    android:textSize="@dimen/btn_text_size"/>
             <Button android:id="@+id/answer_two"
                     android:layout_width="@dimen/btn_width_size"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/btn_text_size" />
+                    android:textSize="@dimen/btn_text_size"/>
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:orientation="horizontal">
-            
-            
+
+
             <Button android:id="@+id/answer_three"
                     android:layout_width="@dimen/btn_width_size" android:layout_height="wrap_content"
                     android:textSize="@dimen/btn_text_size"/>
             <Button android:id="@+id/answer_four"
                     android:layout_width="@dimen/btn_width_size" android:layout_height="wrap_content"
-                    android:textSize="@dimen/btn_text_size" />
+                    android:textSize="@dimen/btn_text_size"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -50,19 +50,20 @@
                   android:orientation="horizontal"
                   android:paddingTop="@dimen/navi_btn_top_padding">
 
+
         <Button android:id="@+id/previous_btn"
                 android:layout_width="wrap_content" android:layout_height="@dimen/navi_btn_height"
                 android:layout_gravity="left"
                 android:layout_marginRight="@dimen/navi_btn_right_margin"
                 android:drawableLeft="@drawable/arrow_left"
                 android:text="@string/previous_btn"
-                android:textSize="@dimen/navi_btn_text_size" />
+                android:textSize="@dimen/navi_btn_text_size"/>
 
         <Button android:id="@+id/next_btn"
                 android:layout_width="wrap_content" android:layout_height="@dimen/navi_btn_height"
                 android:layout_gravity="right"
                 android:drawableRight="@drawable/arrow_right"
                 android:text="@string/next_btn"
-                android:textSize="@dimen/navi_btn_text_size" />
+                android:textSize="@dimen/navi_btn_text_size"/>
     </LinearLayout>
 </LinearLayout>
