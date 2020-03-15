@@ -1,8 +1,14 @@
 package practice.kotlin.com.wordquiz
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -16,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mCurrentNumber : Int = 0
     private var mAnswer = mutableListOf<Int>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,27 +60,48 @@ class MainActivity : AppCompatActivity() {
         answer_one.setOnClickListener {
             if(resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(0)].korean))){
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
+                showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_two.setOnClickListener {
             if(resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(1)].korean))){
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
+                showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_three.setOnClickListener {
             if(resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(2)].korean))){
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
+                showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_four.setOnClickListener {
             if(resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(3)].korean))){
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
+                showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showSettingPopup() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.alert, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("축하합니다!! 정답입니다")
+            .setPositiveButton("다음") { dialog, which ->
+                next_btn.performClick()
+            }
+            .setNegativeButton("다시", null)
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
+        alertDialog.window?.setLayout(1000,800)
     }
 
     private fun setAnswerData(){
