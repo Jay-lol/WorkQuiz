@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WorkQuiz</string>
+    <string name="previous_btn">이전</string>
+    <string name="next_btn">다음</string>
+    <string name="question_title">다음 단어의 뜻은?</string>
+    <string name="english_0">apple</string>
+    <string name="korean_0">사과</string>
+    <string name="english_1">banana</string>
+    <string name="korean_1">바나나</string>
+    <string name="english_2">crocodile</string>
+    <string name="korean_2">악어</string>
+    <string name="english_3">diablo</string>
+    <string name="korean_3">디아블로</string>
+    <string name="english_4">egg</string>
+    <string name="korean_4">달걀</string>
+    <string name="answer_true">정답!</string>
+    <string name="answer_false">오답!</string>
+</resources>

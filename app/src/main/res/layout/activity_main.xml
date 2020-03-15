@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:layout_gravity="center_horizontal"
+               android:src="@drawable/quiz"/>
+    <TextView android:id="@+id/question_text"
+              android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:text="Question"
+              android:textSize="@dimen/question_size"/>
+    <TextView android:id="@+id/question_word_text"
+              android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:paddingBottom="@dimen/question_word_bottom"
+              android:text="Word"
+              android:textSize="@dimen/question_size"/>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <Button android:id="@+id/answer_one"
+                    android:layout_width="@dimen/btn_width_size"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/btn_text_size" />
+            <Button android:id="@+id/answer_two"
+                    android:layout_width="@dimen/btn_width_size"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/btn_text_size" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            
+            
+            <Button android:id="@+id/answer_three"
+                    android:layout_width="@dimen/btn_width_size" android:layout_height="wrap_content"
+                    android:textSize="@dimen/btn_text_size"/>
+            <Button android:id="@+id/answer_four"
+                    android:layout_width="@dimen/btn_width_size" android:layout_height="wrap_content"
+                    android:textSize="@dimen/btn_text_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:paddingTop="@dimen/navi_btn_top_padding">
+
+        <Button android:id="@+id/previous_btn"
+                android:layout_width="wrap_content" android:layout_height="@dimen/navi_btn_height"
+                android:layout_gravity="left"
+                android:layout_marginRight="@dimen/navi_btn_right_margin"
+                android:drawableLeft="@drawable/arrow_left"
+                android:text="@string/previous_btn"
+                android:textSize="@dimen/navi_btn_text_size" />
+
+        <Button android:id="@+id/next_btn"
+                android:layout_width="wrap_content" android:layout_height="@dimen/navi_btn_height"
+                android:layout_gravity="right"
+                android:drawableRight="@drawable/arrow_right"
+                android:text="@string/next_btn"
+                android:textSize="@dimen/navi_btn_text_size" />
+    </LinearLayout>
+</LinearLayout>
