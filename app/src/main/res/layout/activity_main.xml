@@ -5,9 +5,10 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <Button android:id="@+id/update"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
                android:layout_gravity="center_horizontal"
-               android:src="@drawable/quiz"/>
+               android:background="@drawable/quiz"/>
     <TextView android:id="@+id/question_text"
               android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:layout_gravity="center_horizontal"
