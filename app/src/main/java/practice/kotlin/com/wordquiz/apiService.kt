@@ -4,14 +4,15 @@ import com.google.gson.JsonObject
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface apiService {
-    @Multipart
-    @GET("/toeic")
-    fun getUser(@Query("korean") korean : String?) : Observable<JsonObject>
+
+    // 1 은 토익단어 2는 토스단어
+    @GET("/word")
+    fun getWord(@Query("category") a : Int) : Observable<JsonObject>
+
+    @POST("/toeic")
+    fun getUserP(korean : String?, english: String?) :  Call<ResponseBody>
 
 }

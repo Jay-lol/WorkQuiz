@@ -16,8 +16,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val t = R.string.english_0
-    val t1 = t + 1
     val mQuestions = arrayOf(
         Question(R.string.english_0, R.string.korean_0), Question(R.string.english_1, R.string.korean_1), Question(
             R.string.english_2,
@@ -25,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         ), Question(R.string.english_3, R.string.korean_3), Question
             (R.string.english_4, R.string.korean_4)
     )
+    lateinit var tquestion : Array<Tquestion>
 
     private var mCurrentNumber: Int = 0
     private var mAnswer = mutableListOf<Int>()
@@ -35,36 +34,56 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         updateUi()
         setButton()
+
         update.setOnClickListener {
-            val retrofitService = getService()
-            retrofitService.getUser("h")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                /*.subscribe({ it ->
-                    Log.d("content", it.toString())
-                    Log.d("userIdx ", it.getAsJsonArray("data").get(0).asJsonObject.get("userIdx").asString)
-                    Log.d("name ", it.getAsJsonArray("data").get(0).asJsonObject.get("name").asString)
-                    Log.d("part ", it.getAsJsonArray("data").get(0).asJsonObject.get("part").asString)
-                    Log.d("profileUrl ", it.getAsJsonArray("data").get(0).asJsonObject.get("profileUrl").asString)
-                    Log.d("message", it.getAsJsonPrimitive("message").asString)
-                    Log.d("status", it.getAsJsonPrimitive("status").asString)*/
-                .subscribe({
-                    Log.d("content", it.toString())
-                    Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
-                    //it.getAsJsonPrimitive("message").asString
-                    //val test = it.getAsJsonArray("data").get(0).asJsonObject.get("name").asString
-                    retrofitService.getUser("s")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            Log.d("content", it.toString())
-                            Toast.makeText(this, "$it", Toast.LENGTH_LONG).show()
-                        }
-                })
-                {
-                    Log.e("Error", it.message)
-                }
+            showWhich()
         }
+
+
+    }
+
+    private fun showWhich() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.alert, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("갱신하고 싶은 단어장을 선택하세요")
+            .setPositiveButton("토스") { dialog, which ->
+                val retrofitService = getService()
+                retrofitService.getWord(2)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        Log.d("content", it.toString())
+                        Log.d("toeicIdx ", it.getAsJsonArray("data").get(2).asJsonObject.get("korean").asString)
+//                        tquestion = arrayOf((Tquestion(it.getAsJsonArray("data").get(0).asJsonObject.get("english").asString)
+//                                ,Tquestion(it.getAsJsonArray("data").get(0).asJsonObject.get("korean").asString)),
+//
+
+
+                    })
+                    {
+                        Log.e("Error", it.message)
+                    }
+            }
+            .setNegativeButton("토익") { dialog, which ->
+                val retrofitService = getService()
+                retrofitService.getWord(1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        Log.d("content", it.toString())
+                        Log.d("toeicIdx ", it.getAsJsonArray("data").get(2).asJsonObject.get("korean").asString)
+                    })
+                    {
+                        Log.e("Error", it.message)
+                    }
+            }
+            .create()
+
+        alertDialog.setView(view)
+        alertDialog.show()
+        alertDialog.window?.setLayout(1000, 800)
     }
 
     private fun updateUi() {
