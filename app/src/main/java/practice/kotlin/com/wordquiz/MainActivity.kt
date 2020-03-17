@@ -13,33 +13,33 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
-    val mQuestions = arrayOf(
-        Question(R.string.english_0, R.string.korean_0), Question(R.string.english_1, R.string.korean_1), Question(
-            R.string.english_2,
-            R.string.korean_2
-        ), Question(R.string.english_3, R.string.korean_3), Question
-            (R.string.english_4, R.string.korean_4)
+    var mQuestions = arrayOf(
+        Question(R.string.english_0, R.string.korean_0),
+        Question(R.string.english_1, R.string.korean_1),
+        Question(R.string.english_2, R.string.korean_2),
+        Question(R.string.english_3, R.string.korean_3),
+        Question(R.string.english_4, R.string.korean_4),
+        Question(R.string.english_0, R.string.korean_0)
     )
-    lateinit var tquestion : Array<Tquestion>
+    lateinit var tquestion: Tquestion
+    var resArray: ArrayList<Tquestion> = arrayListOf()
+    var cnt: Int = 0
 
     private var mCurrentNumber: Int = 0
     private var mAnswer = mutableListOf<Int>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         updateUi()
         setButton()
-
         update.setOnClickListener {
             showWhich()
         }
-
-
     }
 
     private fun showWhich() {
@@ -49,25 +49,29 @@ class MainActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("갱신하고 싶은 단어장을 선택하세요")
             .setPositiveButton("토스") { dialog, which ->
-                val retrofitService = getService()
+                val retrofitService = Connect().getService()
                 retrofitService.getWord(2)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        Log.d("content", it.toString())
-                        Log.d("toeicIdx ", it.getAsJsonArray("data").get(2).asJsonObject.get("korean").asString)
-//                        tquestion = arrayOf((Tquestion(it.getAsJsonArray("data").get(0).asJsonObject.get("english").asString)
-//                                ,Tquestion(it.getAsJsonArray("data").get(0).asJsonObject.get("korean").asString)),
-//
 
-
+                        val items = it.getAsJsonArray("data")
+                        for (i in items) {
+                            resArray.add(
+                                Tquestion(
+                                    i.asJsonObject.get("english").asString,
+                                    i.asJsonObject.get("korean").asString
+                                )
+                            )
+                        }
+                        updateUi()
                     })
                     {
                         Log.e("Error", it.message)
                     }
             }
             .setNegativeButton("토익") { dialog, which ->
-                val retrofitService = getService()
+                val retrofitService = Connect().getService()
                 retrofitService.getWord(1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -93,9 +97,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
-        question_text.setText("${mCurrentNumber + 1}" + ") " + resources.getString(R.string.question_title))
-        question_word_text.setText(resources.getString(mQuestions[mCurrentNumber].english))
-
+        if (cnt == 0) {
+            question_text.setText("${mCurrentNumber + 1}" + ") " + resources.getString(R.string.question_title))
+            question_word_text.setText(resources.getString(mQuestions[mCurrentNumber].english))
+        } else {
+            question_text.setText("${mCurrentNumber + 1}" + ") " + resources.getString(R.string.question_title))
+            question_word_text.setText(resArray[mCurrentNumber].english)
+        }
     }
 
     private fun setButton() {
@@ -113,28 +121,28 @@ class MainActivity : AppCompatActivity() {
             updateUi()
         }
         answer_one.setOnClickListener {
-            if (resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(0)].korean))) {
+            if (resArray.get(mCurrentNumber).korean.equals(answer_one.text)) {
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
                 showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_two.setOnClickListener {
-            if (resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(1)].korean))) {
+            if (resArray.get(mCurrentNumber).korean.equals(answer_two.text)) {
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
                 showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_three.setOnClickListener {
-            if (resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(2)].korean))) {
+            if (resArray.get(mCurrentNumber).korean.equals(answer_three.text)) {
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
                 showSettingPopup()
             } else
                 Toast.makeText(this, R.string.answer_false, Toast.LENGTH_SHORT).show()
         }
         answer_four.setOnClickListener {
-            if (resources.getString(mQuestions[mCurrentNumber].korean) == resources.getString((mQuestions[mAnswer.get(3)].korean))) {
+            if (resArray.get(mCurrentNumber).korean.equals(answer_four.text)) {
                 Toast.makeText(this, R.string.answer_true, Toast.LENGTH_SHORT).show()
                 showSettingPopup()
             } else
@@ -167,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         mAnswer.add(2, -1)
         mAnswer.add(3, -1)
 
-        var cnt = 0
+        var cnt3 = 0
         val random = Random()
 
         var temp: Int
@@ -185,10 +193,10 @@ class MainActivity : AppCompatActivity() {
                 isDuplicated = false
                 continue
             } else {
-                mAnswer.set(cnt, temp)
-                cnt++
+                mAnswer.set(cnt3, temp)
+                cnt3++
             }
-            if (cnt > 2) {
+            if (cnt3 > 2) {
                 break
             }
         }
@@ -197,10 +205,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAnswerButtonText() {
-        answer_one.setText(resources.getString(mQuestions[mAnswer.get(0)].korean))
-        answer_two.setText(resources.getString(mQuestions[mAnswer.get(1)].korean))
-        answer_three.setText(resources.getString(mQuestions[mAnswer.get(2)].korean))
-        answer_four.setText(resources.getString(mQuestions[mAnswer.get(3)].korean))
+        if (cnt == 0) {
+            answer_one.setText(String.format(getString(R.string.word_any), mQuestions[mAnswer.get(0)].korean))
+            answer_two.setText(String.format(getString(R.string.word_any), mQuestions[mAnswer.get(1)].korean))
+            answer_three.setText(String.format(getString(R.string.word_any), mQuestions[mAnswer.get(2)].korean))
+            answer_four.setText(String.format(getString(R.string.word_any), mQuestions[mAnswer.get(3)].korean))
+            cnt++
+        } else {
+            answer_one.setText(String.format(getString(R.string.korean_0), resArray[mAnswer.get(0)].korean))
+            answer_two.setText(String.format(getString(R.string.korean_1), resArray[mAnswer.get(1)].korean))
+            answer_three.setText(String.format(getString(R.string.korean_2), resArray[mAnswer.get(2)].korean))
+            answer_four.setText(String.format(getString(R.string.korean_3), resArray[mAnswer.get(3)].korean))
+        }
     }
-
 }
